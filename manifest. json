@@ -1,0 +1,12 @@
+
+{
+  "name": "TITAN FLOW",
+  "short_name": "TITAN",
+  "description": "Institutional Forex Trading Platform",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#07110d",
+  "theme_color": "#07110d"
+}
