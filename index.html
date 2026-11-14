@@ -156,5 +156,15 @@ function toggleBot(){
  botOn?"DISABLE DEMO BOT":"ENABLE DEMO BOT";
 }
 </script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("TITAN FLOW offline support ready"))
+      .catch(error => console.log("Offline setup:", error));
+  });
+}
+</script>
+
 </body>
 </html>
