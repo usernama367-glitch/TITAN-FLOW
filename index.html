@@ -171,7 +171,8 @@ if ("serviceWorker" in navigator) {
   <p>GBPUSD: <span id="gbpusd">Loading...</span></p>
   <p>XAUUSD: <span id="xauusd">Loading...</span></p>
   <small>Market prices require an internet connection.</small>
-</div><script>
+</div>
+<script>
 async function updateMarketPrices() {
   const symbols = ["EURUSD", "GBPUSD", "XAUUSD"];
 
@@ -181,30 +182,39 @@ async function updateMarketPrices() {
     );
 
     try {
+      element.textContent = "Checking market...";
+
       const response = await fetch(
         `https://biquote.io/api/${symbol}`
       );
 
-      if (!response.ok) throw new Error("Price unavailable");
+      if (!response.ok) {
+        throw new Error("Feed unavailable");
+      }
 
       const data = await response.json();
 
       if (data.stale || data.marketState !== "open") {
-        element.textContent = "Market closed / stale";
-      } else {
         element.textContent =
-          Number(data.mid).toFixed(
-            symbol === "XAUUSD" ? 2 : 5
-          );
+          "Market closed — waiting for fresh quote";
+      } else if (Number.isFinite(Number(data.mid))) {
+        element.textContent = Number(data.mid).toFixed(
+          symbol === "XAUUSD" ? 2 : 5
+        );
+      } else {
+        element.textContent = "Price unavailable";
       }
+
     } catch (error) {
-      element.textContent = "Price unavailable";
+      element.textContent = "Feed unavailable";
     }
   }
 }
 
 updateMarketPrices();
 setInterval(updateMarketPrices, 30000);
+</script>
+
 </script>
 </body>
 </html>
